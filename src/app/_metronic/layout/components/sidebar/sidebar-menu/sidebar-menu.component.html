@@ -1,0 +1,73 @@
+<!--begin::Menu wrapper-->
+<div id="kt_app_sidebar_menu_wrapper" class="app-sidebar-wrapper hover-scroll-overlay-y my-5" data-kt-scroll="true"
+  data-kt-scroll-activate="true" data-kt-scroll-height="auto"
+  data-kt-scroll-dependencies="#kt_app_sidebar_logo, #kt_app_sidebar_footer"
+  data-kt-scroll-wrappers="#kt_app_sidebar_menu" data-kt-scroll-offset="5px" data-kt-scroll-save-state="true">
+  <!--begin::Menu-->
+  <div class="menu menu-column menu-rounded menu-sub-indention px-3" id="#kt_app_sidebar_menu" data-kt-menu="true"
+    data-kt-menu-expand="false">
+    <!-- Dashboard -->
+    <div class="menu-item">
+      <a class="menu-link without-sub" routerLink="/dashboard" routerLinkActive="active"><span class="menu-icon">
+          <span [inlineSVG]="'./assets/media/icons/duotune/general/gen025.svg'" class="svg-icon svg-icon-2"></span>
+        </span>
+        <span class="menu-title">Anasayfa</span></a>
+    </div>
+
+    <!-- TramerQuery -->
+    <div class="menu-item">
+      <a class="menu-link without-sub" routerLink="/tramer-query-result" routerLinkActive="active">
+        <span class="menu-icon">
+          <i class="bi bi-search" style="font-size: 1.5rem;"></i>
+        </span>
+        <span class="menu-title">Tramer Sorgulama</span></a>
+    </div>
+
+    <!-- Companies -->
+    <div class="menu-item" *ngIf="hasRole(1)">
+      <a class="menu-link without-sub" routerLink="/companies" routerLinkActive="active">
+        <span class="menu-icon">
+          <span class="svg-icon svg-icon-2" [inlineSVG]="'./assets/media/icons/duotune/communication/com006.svg'"></span>
+        </span>
+        <span class="menu-title">Firmalar</span>
+      </a>
+    </div>
+
+    <!-- Users -->
+    <div class="menu-item" *ngIf="hasRole(1) || hasRole(2)">
+      <a class="menu-link without-sub" routerLink="/users" routerLinkActive="active">
+        <span class="menu-icon">
+          <span class="svg-icon svg-icon-2" [inlineSVG]="'./assets/media/icons/duotune/communication/com014.svg'"></span>
+        </span>
+        <span class="menu-title">Kullanıcılar</span>
+      </a>
+    </div>
+
+    <!-- Reports -->
+    <div class="menu-item menu-accordion" data-kt-menu-trigger="click" routerLinkActive="here show" *ngIf="hasRole(1) || hasRole(2)">
+      <span class="menu-link"><span class="menu-icon"><span class="svg-icon svg-icon-2"
+            [inlineSVG]="'./assets/media/icons/duotune/files/fil003.svg'"></span></span><span class="menu-title"
+          data-link="/crafted/account">Raporlar</span><span class="menu-arrow"></span></span>
+      <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
+        <div class="menu-item" *ngIf="hasRole(1)">
+          <a class="menu-link without-sub" routerLinkActive="active" routerLink="/report/company-summary-report"><span
+              class="menu-bullet"><span class="bullet bullet-dot"></span></span><span
+              class="menu-title">Firma Raporu</span></a>
+        </div>
+        <div class="menu-item">
+          <a class="menu-link without-sub" routerLinkActive="active" routerLink="/report/company-user-summary-report"><span
+              class="menu-bullet"><span class="bullet bullet-dot"></span></span><span
+              class="menu-title">Kullanıcı Raporu</span></a>
+        </div>
+        <div class="menu-item">
+          <a class="menu-link without-sub" routerLinkActive="active" routerLink="/report/company-user-detail-report"><span
+              class="menu-bullet"><span class="bullet bullet-dot"></span></span><span
+              class="menu-title">Kullanıcı Detay Raporu</span></a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <!--end::Menu-->
+</div>
+<!--end::Menu wrapper-->

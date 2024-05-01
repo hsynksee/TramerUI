@@ -1,0 +1,115 @@
+<div class="card">
+  <div class="card-body">
+    <div class="card-title mb-3">
+      <h3 class="fw-bolder m-0">Tramer Sorgula </h3>
+    </div>
+    <form [formGroup]="tramerForm">
+      <div class="row pt-3 ps-3 ">
+        <div class="col-lg-3 mb-3">
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Sorgu Tipi:</mat-label>
+            <mat-select id="queryType" [(ngModel)]="selectedQueryType" formControlName="selectedQueryType">
+              <mat-option value="{{ TramerQueryTypeEnum.ChassisNumber }}">{{
+                TramerQueryTypeLabelMapping[TramerQueryTypeEnum.ChassisNumber] }}</mat-option>
+              <mat-option value="{{ TramerQueryTypeEnum.PlateNumber }}">{{
+                TramerQueryTypeLabelMapping[TramerQueryTypeEnum.PlateNumber] }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-lg-3 mb-3 fv-row">
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Sorgu Parametresi</mat-label>
+            <input formControlName="queryParameter" type="text" matInput name="queryParameter"
+              [(ngModel)]="queryParameter" (keydown.space)="$event.preventDefault()" maxlength="20" (ngModelChange)="queryParameter = $event.toUpperCase()">
+          </mat-form-field>
+        </div>
+        <div class="col-lg-3 mb-3" style="align-self: center;">
+          <label class="form-check form-switch form-check-custom">
+            <input formControlName="newQuery" type="checkbox" value="true"
+              class="form-check-input ng-valid ng-dirty ng-touched">
+            <span class="form-check-label">Yeni Sorgu</span>
+          </label>
+        </div>
+        <div class="col-lg-3 mb-3">
+          <button class="btn btn-primary" (click)="onSubmit()">Sorgula</button>
+        </div>
+        <hr>
+      </div>
+    </form>
+    <div *ngIf="isNonTramerResult" class="row">
+      <div class="col-lg-12 text-center p-5">
+        <div class="alert alert-dismissible bg-light-danger border border-danger d-flex flex-column flex-sm-row p-5 mb-10" style="justify-content: space-around;">
+          <div class="d-flex flex-column pe-0 pe-sm-10">
+            <h4 class="fw-semibold">Uyarı</h4>
+            <span>Tramer Sorgulamasında Hata Oluştu. Lütfen Daha Sonra Tekrar Deneyiniz.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="tramerResult" class="px-5 mb-5">
+      <div class="card-header cursor-pointer">
+        &nbsp;
+        <a (click)="copy()" class="btn btn-icon btn-bg-light btn-active-color-primary me-2 mt-4 mb-0" title="Kopyala">
+          <span class="svg-icon svg-icon-3" [inlineSVG]="'./assets/media/icons/duotune/general/gen054.svg'"></span>
+        </a>
+      </div>
+      <table style="width: 100%; margin-top: 16px; border-collapse: collapse; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+        <tbody>
+          <tr>
+            <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">Şasi Numarası</td>
+            <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">{{ tramerResult.chassisNumber }}</td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">Araç Bilgisi</td>
+            <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">{{ tramerResult.vehicle }}</td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">Sorgu Tarihi</td>
+            <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">{{ tramerResult.tramerQueryDate | date:'dd.MM.yyyy HH:mm' }}</td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">Hasar Adeti</td>
+            <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">{{ tramerResult.totalDamageCount }}
+            </td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">Toplam Hasar Fiyatı</td>
+            <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">{{ tramerResult.totalDamagePrice }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div *ngIf="tramerResult.damages">
+        <div class="card-header cursor-pointer">
+          <div class="card-title m-0">
+            <h2 style="margin: 15px;">Hasarlar:</h2>
+          </div>
+        </div>
+
+        <table style="width: 100%; border-collapse: collapse; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+          <thead>
+            <tr style="background-color: #f2f2f2;">
+              <th style="border: 1px solid #dddddd; text-align: left; padding: 8px;">Hasar Tarihi</th>
+              <th style="border: 1px solid #dddddd; text-align: left; padding: 8px;">Değişen Parça</th>
+              <th style="border: 1px solid #dddddd; text-align: left; padding: 8px;">Hasar Açıklaması</th>
+              <th style="border: 1px solid #dddddd; text-align: left; padding: 8px;">Hasar Cinsi</th>
+              <th style="border: 1px solid #dddddd; text-align: left; padding: 8px;">Hasar Fiyatı</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let damage of tramerResult.damages" style="border: 1px solid #dddddd;">
+              <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">{{ damage.damageDate }}</td>
+              <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">{{ damage.damageChangePart ? 'Evet'
+                :
+                'Hayır' }}</td>
+              <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">{{ damage.damageDefinition }}</td>
+              <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">{{ damage.damageCurrency }}</td>
+              <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">{{ damage.damagePrice }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

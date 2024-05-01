@@ -1,0 +1,51 @@
+<div class="card mb-5 mb-xl-10" id="company-summary-report_view">
+  <div class="card-header cursor-pointer">
+    <div class="card-title m-0">
+      <h3 class="fw-bolder m-0">Firma Raporu </h3>
+    </div>
+  </div>
+  <div class="card-body p-2">
+    <dx-data-grid id="gridContainer" [dataSource]="dataSource" [columnAutoWidth]="true" [showRowLines]="false"
+      [showColumnLines]="false" [showBorders]="true" [rowAlternationEnabled]="true" (onExporting)="onExporting($event)">
+
+      <dxo-toolbar>
+        <dxi-item location="after" locateInMenu="auto">
+          <mat-form-field>
+            <mat-date-range-input [rangePicker]="picker">
+              <input matStartDate matInput placeholder="Başlangıç Tarihi" [(ngModel)]="_startDate" (dateChange)="onChangeStartDate($event)">
+              <input matEndDate matInput placeholder="Bitiş Tarihi" [(ngModel)]="_endDate" (dateChange)="onChangeEndDate($event)">
+            </mat-date-range-input>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+          </mat-form-field>
+        </dxi-item>
+        <dxi-item location="after" locateInMenu="auto">
+          <dx-drop-down-button class="me-1" title="Company" [dropDownOptions]="{ height: 350 ,width:250 }" icon="filter"
+            text="{{_companyName}}" [items]="_companyFilterList" displayExpr="name" keyExpr="id"
+            (onItemClick)="onChangeCompany($event)"></dx-drop-down-button>
+        </dxi-item>
+
+        <dxi-item name="exportButton"></dxi-item>
+      </dxo-toolbar>
+
+      <dxo-paging [pageSize]="25"></dxo-paging>
+      <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[25, 50, 100]"></dxo-pager>
+      <dxo-filter-panel [visible]="false"></dxo-filter-panel>
+      <dxo-filter-row [visible]="false"></dxo-filter-row>
+      <dxo-header-filter [visible]="false"></dxo-header-filter>
+      <dxo-search-panel [visible]="false" [highlightCaseSensitive]="true"></dxo-search-panel>
+      <dxo-group-panel [visible]="false"></dxo-group-panel>
+      <dxo-export [enabled]="true"></dxo-export>
+
+      <dxi-column dataField="companyName" dataType="string" caption="Firma"></dxi-column>
+      <dxi-column dataField="totalQueryCount" alignment="center" dataType="string"
+        caption="Toplam Sorgu Adet"></dxi-column>
+      <dxi-column dataField="totalQueryPrice" alignment="center" dataType="number" caption="Toplam Sorgu Fiyat"
+        format="₺#,##0.##"></dxi-column>
+      <dxi-column dataField="totalNewQueryCount" alignment="center" dataType="string"
+        caption="Yeni Sorgu Adet"></dxi-column>
+      <dxi-column dataField="totalRepeatQueryCount" alignment="center" dataType="string"
+        caption="Tekrar Sorgu Adet"></dxi-column>
+    </dx-data-grid>
+  </div>
+</div>

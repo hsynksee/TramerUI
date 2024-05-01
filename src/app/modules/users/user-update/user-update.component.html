@@ -1,0 +1,84 @@
+<div class="card mb-5 mb-xl-12" id="kt_profile_details_view">
+  <div class="card-header cursor-pointer">
+    <div class="card-title m-0">
+      <h3 class="fw-bolder m-0">Kullanıcı Güncelle</h3>
+    </div>
+  </div>
+  <form novalidate="novalidate" [formGroup]="updateUserForm" class="form col-lg-12 mx-auto">
+    <input type="text" matInput name="id" formControlName="id" hidden>
+    <div class="card-body p-9">
+      <div class="row">
+        <div class="col-lg-6 mb-5 fv-row">
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Ad</mat-label>
+            <input type="text" matInput name="name" formControlName="name">
+            <mat-error *ngIf="updateUserForm.controls['name'].hasError('required')">
+              Ad <strong>Zorunludur</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-lg-6 mb-5 fv-row">
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Soyad</mat-label>
+            <input type="text" matInput name="surname" formControlName="surname">
+            <mat-error *ngIf="updateUserForm.controls['surname'].hasError('required')">
+              Soyad <strong>Zorunludur</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-lg-6 mb-5 fv-row">
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>E-posta</mat-label>
+            <input type="text" matInput name="email" formControlName="email">
+            <mat-error *ngIf="updateUserForm.controls['email'].hasError('required')">
+              E-posta <strong>Zorunludur</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-lg-6 mb-5 fv-row">
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Telefon Numarası</mat-label>
+            <input type="text" matInput name="phoneNumber" formControlName="phoneNumber">
+            <mat-error *ngIf="updateUserForm.controls['phoneNumber'].hasError('required')">
+              Telefon Numarası <strong>Zorunludur</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-lg-6 mb-5 fv-row">
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Kullanıcı Rolü</mat-label>
+            <mat-select name="roleId" formControlName="roleId">
+              <mat-option *ngFor="let item of userRoleEnumSource" [value]="item">
+                {{ userRoleLabelMapping[item] }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="updateUserForm.controls['roleId'].hasError('required')">
+              Kullanıcı Rolü <strong>Zorunludur</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-lg-6 mb-5 fv-row" *ngIf="hasRole(1)">
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Firma</mat-label>
+            <mat-select formControlName="companyId">
+              <mat-option [value]="null">Seçiniz</mat-option>
+              <mat-option *ngFor="let item of _companyList" [value]="item.id">{{item.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer d-flex justify-content-end py-6 px-9">
+      <button type="button" class="btn btn-sm btn-success" [disabled]="updateUserForm.invalid || (isLoading$ | async)"
+        (click)="updateUser()">
+        <ng-container *ngIf="!(isLoading$ | async)">Kaydet</ng-container>
+        <ng-container *ngIf="isLoading$ | async">
+          <span class="indicator-progress" [style.display]="'block'">
+            Lütfen bekleyiniz...
+            <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+          </span>
+        </ng-container>
+      </button>
+    </div>
+  </form>
+</div>

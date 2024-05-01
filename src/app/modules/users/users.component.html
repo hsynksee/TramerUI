@@ -1,0 +1,74 @@
+<div class="card mb-5 mb-xl-10" id="users_view">
+  <div class="card-header cursor-pointer">
+    <div class="card-title m-0">
+      <h3 class="fw-bolder m-0">Kullanıcılar </h3>
+    </div>
+    <a (click)="routeToCreateUser()" class="btn btn-sm btn-danger align-self-center">
+      Yeni Kullanıcı Ekle
+    </a>
+  </div>
+  <div class="card-body p-2">
+    <dx-data-grid id="gridContainer" [dataSource]="dataSource" [columnAutoWidth]="true" [showRowLines]="false"
+      [showColumnLines]="false" [showBorders]="true" [rowAlternationEnabled]="true" (onExporting)="onExporting($event)">
+
+      <dxo-toolbar>
+        <dxi-item location="after" locateInMenu="auto">
+          <dx-drop-down-button class="me-1" title="Company" [dropDownOptions]="{ height: 350 ,width:250 }" icon="filter"
+            text="{{_companyName}}" [items]="_companyFilterList" displayExpr="name" keyExpr="id"
+            (onItemClick)="onChangeCompany($event)" *ngIf="hasRole(1)"></dx-drop-down-button>
+        </dxi-item>
+        <dxi-item location="after" locateInMenu="auto">
+          <dx-drop-down-button class="me-1" title="Status" [dropDownOptions]="{ width: 250 }" icon="filter"
+            text="{{_statusFilterName}}" [items]="_statusFilter" displayExpr="name" keyExpr="id"
+            (onItemClick)="onChangeStatus($event)"></dx-drop-down-button>
+        </dxi-item>
+        <dxi-item name="exportButton"></dxi-item>
+        <dxi-item name="searchPanel" locateInMenu="auto">
+          
+        </dxi-item>
+      </dxo-toolbar>
+
+      <dxo-paging [pageSize]="25"></dxo-paging>
+      <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[25, 50, 100]"></dxo-pager>
+      <dxo-filter-panel [visible]="false"></dxo-filter-panel>
+      <dxo-filter-row [visible]="false"></dxo-filter-row>
+      <dxo-header-filter [visible]="false"></dxo-header-filter>
+      <dxo-search-panel [visible]="true" [highlightCaseSensitive]="true" placeholder="Ara.."></dxo-search-panel>
+      <dxo-group-panel [visible]="false"></dxo-group-panel>
+      <dxo-export [enabled]="true"></dxo-export>
+
+
+      <dxi-column dataField="companyName" dataType="string" caption="Firma"></dxi-column>
+      <dxi-column dataField="roleId" cellTemplate="cellUserRoleTemplate" dataType="string" caption="Rol"></dxi-column>
+      <dxi-column dataField="name" dataType="string" caption="İsim"></dxi-column>
+      <dxi-column dataField="surname" dataType="string" caption="Soyisim"></dxi-column>
+      <dxi-column dataField="email" dataType="string" caption="Mail"></dxi-column>
+      <dxi-column dataField="phoneNumber" alignment="center" dataType="string" caption="Telefon"></dxi-column>
+      <dxi-column dataField="isActive" cellTemplate="cellStateTemplate" dataType="string" caption="Durum">
+      </dxi-column> <dxi-column type="buttons" [width]="110" [fixed]="true" caption="İşlemler"
+        cellTemplate="cellBtnTemplate"></dxi-column>
+
+      <div *dxTemplate="let item of 'cellBtnTemplate'">
+        <a (click)="editUserClick(item)" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+          <span class="svg-icon svg-icon-2" [inlineSVG]="'./assets/media/icons/duotune/general/gen004.svg'"></span>
+        </a>
+        <a (click)="setUserActive(item)" class="btn btn-icon btn-bg-light btn-active-color-danger btn-sm"
+          title="Pasif Yap" *ngIf="item.row.data.isActive">
+          <span class="svg-icon svg-icon-2" [inlineSVG]="'./assets/media/icons/duotune/arrows/arr011.svg'"></span>
+        </a>
+        <a (click)="setUserActive(item)" class="btn btn-icon btn-bg-light btn-active-color-danger btn-sm"
+          title="Aktif Yap" *ngIf="!item.row.data.isActive">
+          <span class="svg-icon svg-icon-2" [inlineSVG]="'./assets/media/icons/duotune/arrows/arr012.svg'"></span>
+        </a>
+      </div>
+
+      <div *dxTemplate="let item of 'cellUserRoleTemplate'" id="user-role">
+        <span mat-button color="primary">{{userRoleLabelMapping[item.value] }}</span>
+      </div>
+      <div *dxTemplate="let item of 'cellStateTemplate'" id="custom-cell-for-statition"
+        [ngStyle]="{ 'background-color': item.value ? '#dfffea' : '#FFEEF3', 'color': item.value ? 'var(--bs-success)' : 'var(--bs-danger)', 'display': 'inline-block', 'align-items': 'center', 'justify-content': 'center', 'padding': '2px 15px', 'border-radius': '5px' }">
+        <span mat-button color="primary">{{item.value ? "Aktif" : "Pasif" }}</span>
+      </div>
+    </dx-data-grid>
+  </div>
+</div>

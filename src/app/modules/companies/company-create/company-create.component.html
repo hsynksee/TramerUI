@@ -1,0 +1,78 @@
+<div class="card mb-5 mb-xl-12" id="kt_profile_details_view">
+  <div class="card-header cursor-pointer">
+    <div class="card-title m-0">
+      <h3 class="fw-bolder m-0">Firma Ekle</h3>
+    </div>
+  </div>
+  <form novalidate="novalidate" [formGroup]="createCompanyForm" class="form col-lg-12 mx-auto">
+    <div class="card-body p-9">
+      <div class="row">
+        <div class="col-lg-6 mb-5 fv-row">
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Ad</mat-label>
+            <input type="text" matInput name="name" formControlName="name">
+            <mat-error *ngIf="createCompanyForm.controls['name'].hasError('required')">
+              Ad <strong>Zorunludur</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-lg-6 mb-5 fv-row">
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Telefon</mat-label>
+            <input type="text" matInput name="phone" formControlName="phone">
+            <mat-error *ngIf="createCompanyForm.controls['phone'].hasError('required')">
+              Telefon <strong>Zorunludur</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-lg-6 mb-5 fv-row">
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Vergi Numarası</mat-label>
+            <input type="text" matInput name="taxNumber" formControlName="taxNumber">
+            <mat-error *ngIf="createCompanyForm.controls['taxNumber'].hasError('required')">
+              Vergi Numarası <strong>Zorunludur</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-lg-6 mb-5 fv-row">
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Vergi Adresi</mat-label>
+            <input type="text" matInput name="taxOffice" formControlName="taxOffice">
+            <mat-error *ngIf="createCompanyForm.controls['taxOffice'].hasError('required')">
+              Vergi Adresi <strong>Zorunludur</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-lg-6 mb-5 fv-row">
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Sorgu Ücreti</mat-label>
+            <input type="number" matInput name="queryPrice" formControlName="queryPrice">
+            <mat-error *ngIf="createCompanyForm.controls['queryPrice'].hasError('required')">
+              Sorgu Ücreti<strong>Zorunludur</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <br>
+        <div class="col-lg-6 mb-5 fv-row" style="align-self: center;">
+          <label class="form-check form-switch form-check-custom">
+            <input formControlName="isActive" type="checkbox" value="true" class="form-check-input ng-valid ng-dirty ng-touched">
+            <span class="form-check-label">Aktif / Pasif</span>
+          </label>
+        </div>
+        
+      </div>
+    </div>
+    <div class="card-footer d-flex justify-content-end py-6 px-9">
+      <button type="button" class="btn btn-sm btn-success" [disabled]="createCompanyForm.invalid || (isLoading$ | async)"
+        (click)="createCompany()">
+        <ng-container *ngIf="!(isLoading$ | async)">Kaydet</ng-container>
+        <ng-container *ngIf="isLoading$ | async">
+          <span clas="indicator-progress" [style.display]="'block'">
+            Lütfen bekleyiniz...
+            <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+          </span>
+        </ng-container>
+      </button>
+    </div>
+  </form>
+</div>

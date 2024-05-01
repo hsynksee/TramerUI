@@ -1,0 +1,73 @@
+<mat-tab-group>
+
+  <mat-tab label="Sorgu" *ngIf="responseJsonData">
+    <table>
+      <tr>
+        <th>Şasi No</th>
+        <td>{{responseJsonData.data.content.chasisNo}}</td>
+      </tr>
+      <tr>
+        <th>Marka ve Model</th>
+        <td>{{responseJsonData.data.content.brand}}</td>
+      </tr>
+    </table>
+
+    <caption style="margin-top: 13px;">Hasar Bilgisi</caption>
+    <table>
+      <tr>
+        <th>Tarih</th>
+        <th>Değişen Parça</th>
+        <th>Hasar Tanımı</th>
+        <th>Para Birimi</th>
+        <th>Fiyat</th>
+      </tr>
+      <tr *ngFor="let damage of responseJsonData.data.content.damage">
+        <td>{{damage?.damageDate}}</td>
+        <td>{{ damage?.damageChangePart ? 'Var' : 'Yok' }}</td>
+        <td>{{damage?.damageDefinition}}</td>
+        <td>{{damage?.damageCurrency}}</td>
+        <td>{{damage?.damagePrice}}</td>
+      </tr>
+    </table>
+  </mat-tab>
+
+
+  <mat-tab label="Eski Sorgu" *ngIf="oldResponseJsonData">
+    <table>
+      <tr>
+        <th>Şasi No</th>
+        <td>{{oldResponseJsonData?.data.content.chasisNo}}</td>
+      </tr>
+      <tr>
+        <th>Marka ve Model</th>
+        <td>{{oldResponseJsonData?.data.content.brand}}</td>
+      </tr>
+      <tr>
+        <th>Durum Kodu</th>
+        <td>{{oldResponseJsonData?.data.status_code}}</td>
+      </tr>
+      <tr>
+        <th>Durum Açıklaması</th>
+        <td>{{oldResponseJsonData?.data.status_desc}}</td>
+      </tr>
+    </table>
+
+    <caption style="margin-top: 13px;">Hasar Bilgisi (Eski)</caption>
+    <table>
+      <tr>
+        <th>Tarih</th>
+        <th>Değişen Parça</th>
+        <th>Hasar Tanımı</th>
+        <th>Para Birimi</th>
+        <th>Fiyat</th>
+      </tr>
+      <tr *ngFor="let oldDamage of oldResponseJsonData.data.content.damage">
+        <td>{{oldDamage?.damageDate}}</td>
+        <td>{{oldDamage?.damageChangePart ? 'Var' : 'Yok' }}</td>
+        <td>{{oldDamage?.damageDefinition}}</td>
+        <td>{{oldDamage?.damageCurrency}}</td>
+        <td>{{oldDamage?.damagePrice}}</td>
+      </tr>
+    </table>
+  </mat-tab>
+</mat-tab-group>
